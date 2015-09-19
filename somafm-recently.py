@@ -41,13 +41,20 @@ def now_playing(station):
 
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        station = 'defcon'
+    else:
+        station = sys.argv[1]
+
     old = None
     try:
         while True:
-            artist, track, album = now_playing('defcon')
+            artist, track, album = now_playing(station)
             if (artist, track, album) != old:
                 old = (artist, track, album)
-                print "{0}\t{1}\t{2}".format(artist, track, album)
+                print '{0}\t{1}\t{2}'.format(artist, track, album)
+                with open(station + '.log', 'a') as f:
+                    f.write('{0}\t{1}\t{2}\n'.format(artist, track, album))
             sleep(60)
 
     except KeyboardInterrupt:
