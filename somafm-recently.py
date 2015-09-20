@@ -4,7 +4,7 @@ import sys
 from time import sleep
 
 STATIONS = {
-    'defcon': 'http://somafm.com/recent/defcon.html'
+    'defcon': 'http://somafm.com/recent/defcon.html',
     'groovesalad': 'http://somafm.com/recent/groovesalad.html'
 }
 
@@ -37,7 +37,7 @@ def now_playing(station):
     return results[0:3]
 
 if __name__ == '__main__':
-    station = sys.argv[1] if len(sys.argv) < 2 else 'defcon'
+    station = sys.argv[1] if len(sys.argv) == 2 else 'defcon'
     old = None
     try:
         while True:
