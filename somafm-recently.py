@@ -8,6 +8,7 @@ STATIONS = {
     'groovesalad': 'http://somafm.com/recent/groovesalad.html'
 }
 
+
 def now_playing(station):
     results = []
     lines = requests.get(STATIONS[station]).text.splitlines()
@@ -30,7 +31,7 @@ def now_playing(station):
             in_tag = False
         elif not in_tag:
             buff += char
- 
+
     while len(results) < 3:
         results.append("")
 
