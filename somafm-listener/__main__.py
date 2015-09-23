@@ -94,6 +94,8 @@ if __name__ == '__main__':
 
     username = sys.argv[1]
     station = sys.argv[2]
+    os.chdir(os.path.dirname(__file__))
+
     try:
         main(username, station)
 
