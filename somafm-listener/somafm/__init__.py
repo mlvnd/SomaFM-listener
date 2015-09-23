@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 import requests
-import sys
-from time import sleep
 
 STATIONS = {
     'defcon': 'http://somafm.com/recent/defcon.html',
     'groovesalad': 'http://somafm.com/recent/groovesalad.html'
 }
 
+
 def now_playing(station):
+    keys = ['artist', 'title', 'album']
     results = []
+
     lines = requests.get(STATIONS[station]).text.splitlines()
     while len(lines) > 0:
         line = lines.pop(0)
@@ -30,24 +31,8 @@ def now_playing(station):
             in_tag = False
         elif not in_tag:
             buff += char
- 
+
     while len(results) < 3:
         results.append("")
 
-    return results[0:3]
-
-if __name__ == '__main__':
-    station = sys.argv[1] if len(sys.argv) == 2 else 'defcon'
-    old = None
-    try:
-        while True:
-            artist, track, album = now_playing(station)
-            if (artist, track, album) != old:
-                old = (artist, track, album)
-                print '{0}\t{1}\t{2}'.format(artist, track, album)
-                with open(station + '.log', 'a') as f:
-                    f.write('{0}\t{1}\t{2}\n'.format(artist, track, album))
-            sleep(60)
-
-    except KeyboardInterrupt:
-        pass
+    return dict(zip(keys, results[0:3]))
