@@ -14,6 +14,11 @@ SCOPES = [
 class Spotify(object):
 
     def __init__(self, username):
+        self.counter = 0
+        self.username = username
+        self.authorize(username)
+
+    def authorize(self, username):
         scope = " ".join(SCOPES)
         self.token = util.prompt_for_user_token(username, scope)
         self.sp = None
@@ -23,7 +28,13 @@ class Spotify(object):
             sys.exit(1)
 
         self.sp = spotipy.Spotify(auth=self.token)
+        self.sp.trace = False
         self.user_id = self.sp.me()['id']
+
+    def re_authorize(self):
+        self.counter += 1
+        if self.counter % 5 == 0:
+            self.authorize(self.username)
 
     def search(self, artist, track):
         query = 'artist:{0} track:{1}'.format(artist, track)
