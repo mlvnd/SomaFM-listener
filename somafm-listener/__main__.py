@@ -63,8 +63,16 @@ class SomaListener(object):
                 self.store_track(current)
                 previous = current
             else:
+                # poging om verlopen vh token tegen te gaan
+                self.dummy_search(current)
                 sleep(60)
                 continue
+
+    def dummy_search(self, track):
+        artist = track['artist']
+        title = track['title']
+
+        self.spotify.search(artist, title)
 
     def store_track(self, track):
         artist = track['artist']
